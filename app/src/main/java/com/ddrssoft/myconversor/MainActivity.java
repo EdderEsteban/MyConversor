@@ -23,50 +23,45 @@ public class MainActivity extends AppCompatActivity {
 
         vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(MainActivityViewModel.class);
 
-        //Observador para mutable_radioDolarEuro
-        vm.getMutable_radioDolarEuro().observe(this, new Observer<Boolean>() {
+        //Setear editDolar como seleccionado por defecto
+        binding.radioDolarEuros.setChecked(true);
+        binding.editDolar.setEnabled(true);
+        binding.editEuros.setEnabled(false);
+        binding.radioDolarEuros.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(Boolean aBoolean) {
-                vm.selectorDolar(binding.editDolar.getText().toString());
+            public void onClick(View view) {
                 binding.editDolar.setEnabled(true);
                 binding.editEuros.setEnabled(false);
+                binding.editEuros.setText("0");
+                binding.editDolar.requestFocus();
             }
         });
 
-        //Observador para mutable_radioEuroDolar
-        vm.getMutable_radioEuroDolar().observe(this, new Observer<Boolean>() {
+        binding.radioEurosDollar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(Boolean aBoolean) {
-                vm.selectorEuro(binding.editEuros.getText().toString());
-                binding.editEuros.setEnabled(false);
+            public void onClick(View view) {
                 binding.editDolar.setEnabled(false);
-            }
-        });
+                binding.editEuros.setEnabled(true);
+                binding.editDolar.setText("0");
+                binding.editEuros.requestFocus();
 
-        // Observador para mutable_dolar
-        vm.getMutable_dolar().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String newValue) {
-                // Actualizar la interfaz de usuario con el nuevo valor de mutable_dolar
             }
         });
-        // Observador para mutable_euro
-        vm.getMutable_euro().observe(this, new Observer<String>() {
+        vm.getMutable_resultado().observe(this, new Observer<Double>() {
             @Override
-            public void onChanged(String newValue) {
-                // Actualizar la interfaz de usuario con el nuevo valor de mutable_euro
+            public void onChanged(Double mutable_resultado) {
+                binding.textResultado.setText(String.valueOf(mutable_resultado));
             }
         });
-
-        // Escuchar el boton Convertir
         binding.btnConvertir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                vm.calculadora();
+                String euro = binding.editDolar.getText().toString();
+                String dolar = binding.editDolar.getText().toString();
+                boolean radioEstado = binding.radioDolarEuros.isChecked();
+                vm.conversor(dolar, euro, radioEstado);
             }
         });
-        }
-
-
+    }
 }
 
