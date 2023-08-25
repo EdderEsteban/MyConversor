@@ -13,6 +13,7 @@ import java.io.Closeable;
 public class MainActivityViewModel extends AndroidViewModel {
     private Context contexto;
     private MutableLiveData<Boolean> mutable_radioDolarEuro;
+    private MutableLiveData<Boolean> mutable_radioEuroDolar;
     private MutableLiveData<String> mutable_dolar;
     private MutableLiveData<String> mutable_euro;
     private  MutableLiveData<Double> mutable_resultado;
@@ -28,6 +29,12 @@ public class MainActivityViewModel extends AndroidViewModel {
     public LiveData<Boolean> getMutable_radioDolarEuro(){
         if (mutable_radioDolarEuro == null){
             mutable_radioDolarEuro = new MutableLiveData<>(true); // Valor predeterminado a true
+        }
+        return mutable_radioDolarEuro;
+    }
+    public LiveData<Boolean> getMutable_radioEuroDolar(){
+        if (mutable_radioEuroDolar == null){
+            mutable_radioEuroDolar = new MutableLiveData<>(false); // Valor predeterminado a true
         }
         return mutable_radioDolarEuro;
     }
@@ -49,7 +56,16 @@ public class MainActivityViewModel extends AndroidViewModel {
         }
         return mutable_resultado;
     }
-    public void selector (){
+    public void selectorDolar(String valor ) {
+        mutable_dolar.setValue(valor);
+        mutable_euro.setValue("");
+        }
+    public void selectorEuro(String valor){
+        mutable_euro.setValue(valor);
+        mutable_dolar.setValue("");
+        }
+
+    public void calculadora (){
         if(mutable_radioDolarEuro.getValue()){
             conversor(true,mutable_dolar.getValue());
         }else{

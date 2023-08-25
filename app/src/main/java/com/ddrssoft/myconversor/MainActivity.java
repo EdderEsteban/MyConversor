@@ -27,7 +27,19 @@ public class MainActivity extends AppCompatActivity {
         vm.getMutable_radioDolarEuro().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
+                vm.selectorDolar(binding.editDolar.getText().toString());
+                binding.editDolar.setEnabled(true);
+                binding.editEuros.setEnabled(false);
+            }
+        });
 
+        //Observador para mutable_radioEuroDolar
+        vm.getMutable_radioEuroDolar().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                vm.selectorEuro(binding.editEuros.getText().toString());
+                binding.editEuros.setEnabled(false);
+                binding.editDolar.setEnabled(false);
             }
         });
 
@@ -50,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         binding.btnConvertir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                vm.selector();
+                vm.calculadora();
             }
         });
         }
