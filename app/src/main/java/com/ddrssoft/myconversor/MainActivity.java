@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 
 import com.ddrssoft.myconversor.databinding.ActivityMainBinding;
 
@@ -21,7 +22,13 @@ public class MainActivity extends AppCompatActivity {
 
         vm = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(MainActivityViewModel.class);
 
-        
+        // Escuchar el boton Convertir
+        binding.btnConvertir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         }
 
 
