@@ -5,9 +5,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
+
 
 import com.ddrssoft.myconversor.databinding.ActivityMainBinding;
 
@@ -27,12 +26,16 @@ public class MainActivity extends AppCompatActivity {
         binding.radioDolarEuros.setChecked(true);
         binding.editDolar.setEnabled(true);
         binding.editEuros.setEnabled(false);
+        binding.editEuros.setText("0");
+
+        //Observar el comportamiento de los Radio Button
         binding.radioDolarEuros.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 binding.editDolar.setEnabled(true);
                 binding.editEuros.setEnabled(false);
                 binding.editEuros.setText("0");
+                binding.editDolar.setText("");
                 binding.editDolar.requestFocus();
             }
         });
@@ -43,25 +46,29 @@ public class MainActivity extends AppCompatActivity {
                 binding.editDolar.setEnabled(false);
                 binding.editEuros.setEnabled(true);
                 binding.editDolar.setText("0");
+                binding.editEuros.setText("");
                 binding.editEuros.requestFocus();
 
             }
         });
+
+        // Setear el Observer del Mutable
         vm.getMutable_resultado().observe(this, new Observer<Double>() {
             @Override
             public void onChanged(Double mutable_resultado) {
                 binding.textResultado.setText(String.valueOf(mutable_resultado));
             }
         });
+        // Setear el inClick del Boton Convertir
         binding.btnConvertir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String euro = binding.editDolar.getText().toString();
+                String euro = binding.editEuros.getText().toString();
                 String dolar = binding.editDolar.getText().toString();
                 boolean radioEstado = binding.radioDolarEuros.isChecked();
                 vm.conversor(dolar, euro, radioEstado);
             }
         });
+
     }
 }
-

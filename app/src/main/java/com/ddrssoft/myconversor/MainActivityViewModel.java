@@ -31,15 +31,22 @@ public class MainActivityViewModel extends AndroidViewModel {
         return mutable_resultado;
     }
 
-    public void conversor(String dolar, String euro, boolean estado ){
+    public void conversor(String dolar, String euro, boolean estado) {
+        try {
+            Double valorDolar = Double.parseDouble(dolar);
+            Double valorEuro = Double.parseDouble(euro);
 
-        Double valorDolar = Double.parseDouble(dolar);
-        Double valorEuro = Double.parseDouble(euro);
-        if(valorDolar != 0 & estado){
-            mutable_resultado.setValue(valorDolar * tasaDolarEuro);
-        }else {
-            mutable_resultado.setValue(valorEuro * tasaEuroDolar);
+            if (estado) {
+                mutable_resultado.setValue(valorDolar * tasaDolarEuro);
+            } else {
+                mutable_resultado.setValue(valorEuro * tasaEuroDolar);
+            }
+        } catch (NumberFormatException e) {
+            mutable_resultado.setValue(0.0);
+            Toast.makeText(contexto, "Por Favor Ingrese un Número Valido", Toast.LENGTH_LONG).show();
+
         }
     }
+
 
 }
